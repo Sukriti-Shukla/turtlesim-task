@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# import necesary modules
 import rospy
 from geometry_msgs.msg import Twist
 from turtlesim.msg import Pose
@@ -11,7 +10,6 @@ c=3
 class Turtle:
     
     def __init__(self, i,x,y,vx,vy):
-        # Node initialised
         self.name = 'turtle' + str(i)
         
         serv = rospy.ServiceProxy('/spawn', Spawn)
@@ -25,8 +23,6 @@ class Turtle:
     def newTurtle(self):
         self.velocity_subscriber= rospy.Subscriber('/' + self.name + '/pose', Pose, self.update_pose)
         self.velocity_publisher.publish(self.v_msg)
-   #self.pose=Pose()
-    # function to update own postion
     def update_pose(self, data):
         global c
         self.velocity_publisher.publish(self.v_msg)
@@ -37,6 +33,7 @@ class Turtle:
             self.velocity_publisher.publish(self.v_msg)
             v1 = self.v_msg.linear.x
             v2 = -1*self.v_msg.linear.y
+
 
             if(data.x<1):
                pos1 = data.x+0.1
@@ -68,12 +65,3 @@ for i in range(1):
     ob.newTurtle()
     break
 rospy.spin()
-
-        # Publish at the desired rate.
-       # self.rate.sleep()        
-# if __name__ == '__main__':
-#     try:
-#         x = turtle1()
-#         x.move()
-#     except rospy.ROSInterruptException:
-#         pass
